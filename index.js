@@ -18,14 +18,23 @@ app.post("./register", async (req,res)=>{
         const email = req.body.email;
         const password = req.body.password;
 
-        if(!name && email && password)
+        if(!name || !email || !password)
         {
-            res.status(400).send("Please enter name");
+            res.status(400).send("Please enter all information");
         }
         const existingUser = await User.findOne({email: email.toLowerCase()});
+        if(existingUser){
+            return res.status(409).json({
+                success: false,
+                message: "User already exists"
+            })
+        }
+
+        const saltingRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltingRounds);
     }
-    catch{
-        console.log("Error while fetching")
+    catch(error){
+        console.log("Error while registration :", error);
     }
 })
 
