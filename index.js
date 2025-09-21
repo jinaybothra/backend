@@ -35,6 +35,20 @@ app.post("./register", async (req,res)=>{
     }
     catch(error){
         console.log("Error while registration :", error);
+        if(error.code === 11000){
+            return res.status(409).json({
+                success: false,
+                message: "User already exists"
+            })
+        }
+
+        if(error.name === 'ValidationError'){
+            return res.status(400).json({
+                success: false,
+                message: 'Validation failed',
+                errors: validationErrors
+            })
+        }
     }
 })
 
