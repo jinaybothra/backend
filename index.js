@@ -32,6 +32,30 @@ app.post("./register", async (req,res)=>{
 
         const saltingRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltingRounds);
+
+        const User = await User.create({
+            name: name.trim(),
+            email: email.trim(),
+            password: hashedPassword.trim()
+        })
+
+        const token = jwt.sign(
+            {
+                _id: user._id,
+                email: user.email
+            },
+            process.env.MONGOURL,
+            {
+                expiresIn: '24h'
+            }
+        )
+
+        const userResponse = {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            createdAt: user.createdAt
+        }
     }
     catch(error){
         console.log("Error while registration :", error);
