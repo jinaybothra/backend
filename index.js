@@ -56,6 +56,13 @@ app.post("./register", async (req,res)=>{
             email: user.email,
             createdAt: user.createdAt
         }
+
+        res.status(201).json({
+            success: true,
+            message: "Registration is successfull",
+            user: userResponse,
+            token: token
+        })
     }
     catch(error){
         console.log("Error while registration :", error);
