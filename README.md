@@ -2,3 +2,4 @@
 * To initialise backend project run `npm init`.
 * To install express.js we use `npm i express`.
 * We have used mongoDB as our database which is noSQL database.
+* To install mongoDB we use `npm i mongoose`.
