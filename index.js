@@ -47,8 +47,14 @@ app.post("./register", async (req,res)=>{
             process.env.MONGOURL,
             {
                 expiresIn: '24h'
-            }
-        )
+            })
+
+        const cookieOption = {
+            expires: new Date(Date.now() + 24*60*60*1000),
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict'
+        }
 
         const userResponse = {
             _id: user._id,
